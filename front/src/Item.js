@@ -10,7 +10,9 @@ class Item extends React.Component {
           <div className="PlayaList-item">
             <img src={oneItem.picture} alt={oneItem.name} />
             <div>{oneItem.name}</div>
-            {/*<span className="icon-cancel-circle"></span>*/}
+            <span className="icon-cancel-circle" 
+              onClick={() => this.props.handleDelete(oneItem.id)} 
+            ></span>
           </div>
         )}
       </div>

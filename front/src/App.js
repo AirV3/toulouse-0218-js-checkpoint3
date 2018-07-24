@@ -27,8 +27,40 @@ class App extends Component {
     items: []
   }
 
-  handleSubmit = () => {
+  handleSubmit = (event) => {
+    event.preventDefault()
+    fetch('/api/items', {
+      method:'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      }),
+      body: JSON.stringify(this.state)
+    })
+    .then(res => res.json())
+    .then(item => console.log(item))
+  }
 
+  handleChange = (event) => {
+    const value = event.target.value
+    const name = event.target.name
+    this.setState({
+      [name]: value
+    })
+  }
+
+  handleDelete = (id) => {
+    fetch(`/api/items/${id}`, {
+      method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(result => {
+      const items = [...this.state.items]
+      const index = items.findIndex(item => {
+        return item.id === id
+      })
+      items.splice(index, 1)
+      this.setState({items: items})
+    })
   }
 
   componentDidMount() {
@@ -51,21 +83,23 @@ class App extends Component {
           <h1 className="PlayaList-title">PlayaList</h1>
         </header>
 
-        {/*<div className="PlayaList-list">
+        <div className="PlayaList-list">
           <form>
             <h5>Ajouter un item</h5>
             <div>
-              <input name="name" placeholder="Nom" />
-              <input name="picture" placeholder="image" />
-              <button type="submit">
-                <span className="icon-checkmark"></span>
-              </button>
+              <form onSubmit={this.handleSubmit}>
+                <input name="name" placeholder="Nom" value={this.state.name} onChange={this.handleChange} />
+                <input name="picture" placeholder="image" value={this.state.picture} onChange={this.handleChange} />
+                <button type="submit" >
+                  <span className="icon-checkmark" ></span>
+                </button>
+              </form>
             </div>
           </form>
-        </div>*/}
+        </div>
 
         <div className="PlayaList-list">
-          <Item item={this.state.items} />
+          <Item item={this.state.items} handleDelete={this.handleDelete} />
         </div>
 
       </div>

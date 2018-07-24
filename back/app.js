@@ -4,6 +4,7 @@ const itemsRouter = require('./routes/items')
 const app = express()
 app.use(bodyParser.json())
 
+
 // Lier itemsRouter aux URL commençant par /api/items
 app.use('/api/items', itemsRouter)
 
