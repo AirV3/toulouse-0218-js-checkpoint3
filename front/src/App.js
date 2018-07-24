@@ -31,6 +31,17 @@ class App extends Component {
 
   }
 
+  componentDidMount() {
+    fetch('/api/items')
+    .then( res => res.json )
+    .then( items => { 
+      this.setState({
+        items: items
+      })
+    console.log(items)
+    })
+  }
+
   render() {
     return (
       <div className="PlayaList">
